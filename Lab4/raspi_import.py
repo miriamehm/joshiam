@@ -51,7 +51,7 @@ def raspi_import(path, channels=5):
 # Import data from bin file
 
 sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1
-        else 'foo9.bin')
+        else 'number1.bin')
 
 print(data)
 data_multi = data * 0.81*10**(-3)
