@@ -4,8 +4,8 @@ import scipy.signal as signal
 
 
 
-data = np.loadtxt('/Users/joshjude/Documents/skole/semester 6/ttt4280 sensor/lab1-kopi/joshiam/Lab3/RGBmeasurements1.txt')
-data = signal.detrend(data)
+data = np.loadtxt('/Users/joshjude/Documents/skole/semester 6/ttt4280 sensor/lab1-kopi/joshiam/Rapport 2/trans1.txt')
+#data = signal.detrend(data)
 
 
 
@@ -25,6 +25,7 @@ def plotData():
     plt.figure(figsize=(10,6))
     
     plt.subplot(3, 1, 1)
+    plt.ylim(225, 275)
     plt.plot(time, red, color='red')
     plt.title('Rød kanal')
     plt.xlabel('Tid [s]')
