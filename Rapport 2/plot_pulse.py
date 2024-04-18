@@ -25,22 +25,22 @@ def plotData():
     plt.figure(figsize=(10,6))
     
     plt.subplot(3, 1, 1)
-    plt.plot(time, 20*np.log10(red), color='red')
-    plt.title('Rød')
-    plt.xlabel('Tid[s]')
-    plt.ylabel('Amplitude')
+    plt.plot(time, red, color='red')
+    plt.title('Rød kanal')
+    plt.xlabel('Tid [s]')
+    plt.ylabel('Intensitet')
 
     plt.subplot(3, 1, 2)
-    plt.plot(time, 20*np.log10(np.abs(green)), color='green')
-    plt.title('Grønn')
-    plt.xlabel('Tid[s]')
-    plt.ylabel('Amplitude')
+    plt.plot(time, green, color='green')
+    plt.title('Grønn kanal')
+    plt.xlabel('Tid [s]')
+    plt.ylabel('Intensitet')
 
     plt.subplot(3, 1, 3)
-    plt.plot(time, 20*np.log10(blue), color='blue')
-    plt.title('Blå')
-    plt.xlabel('Blå[s]')
-    plt.ylabel('Amplitude')
+    plt.plot(time, blue, color='blue')
+    plt.title('Blå kanal')
+    plt.xlabel('Blå [s]')
+    plt.ylabel('Intensitet')
 
     plt.tight_layout()
     plt.show()
@@ -144,6 +144,6 @@ def butter_bandpass_filter(data, lowcut, highcut, fs, order=5):
     y = signal.lfilter(b, a, data)
     return y
 
-plotPeriodogram_with_filter()
+plotData()
 
 
