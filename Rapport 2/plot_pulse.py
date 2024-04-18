@@ -4,7 +4,7 @@ import scipy.signal as signal
 
 
 
-data = np.loadtxt('/Users/joshjude/Documents/skole/semester 6/ttt4280 sensor/lab1-kopi/joshiam/Lab3/RGBmeasurementswarmer.txt')
+data = np.loadtxt('/Users/joshjude/Documents/skole/semester 6/ttt4280 sensor/lab1-kopi/joshiam/Lab3/RGBmeasurements1.txt')
 data = signal.detrend(data)
 
 
@@ -21,9 +21,7 @@ blueFFT = np.fft.fft(blue)
 
 frequencyBin = np.fft.fftfreq(len(time), time[1]-time[0])
 
-
-
-def plotData() :
+def plotData():
     plt.figure(figsize=(10,6))
     
     plt.subplot(3, 1, 1)
@@ -48,7 +46,6 @@ def plotData() :
     plt.show()
 
 def plotFFT():
-
     plt.figure(figsize=(10, 6))
     plt.subplot(3, 1, 1)
     plt.plot(frequencyBin, np.abs(redFFT), color='red')
@@ -125,7 +122,7 @@ def plotPeriodogram_with_filter():
     plt.xlim(0.25, 5)
     plt.ylim(-50, 10)
     plt.grid(True)
-    plt.plot(peak_freq_blue, np.max(normalizedBlue), marker='o', markersize=5, color='blue', label=f'Peak: {peak_freq_blue:.3f} Hz')
+    plt.plot(peak_freq_blue, np.max(normalizedBlue), marker='o', markersize=5, color='blue', label=f'Frekvenstopp: {peak_freq_blue:.3f} Hz')
     plt.title('Periodogram - blå kanal')
     plt.xlabel('Frekvens [Hz]')
     plt.ylabel('Relativ effekt [dB]')
