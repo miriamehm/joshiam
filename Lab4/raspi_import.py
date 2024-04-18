@@ -4,17 +4,30 @@ import sys
 
 def plot_channels(data):
     plt.figure(figsize=(12, 8))  # Create figure outside the loop
-    for i in range(data.shape[1]):  # Use data.shape[1] instead of data_multi.shape[1]
-        plt.subplot(data.shape[1], 1, i+1)
-        plt.plot(np.arange(data.shape[0]) * sample_period, data[:, i])  # Use data instead of data_multi
-        plt.xlim([0.2, 0.22])
-        plt.ylim([-0.05, 1.3])
+    num_channels = data.shape[1]
+    num_subplots = num_channels - 1  # Combine last two channels into one subplot
+    for i in range(num_subplots):  
+        plt.subplot(num_subplots, 1, i+1)
+        plt.plot(np.arange(data.shape[0]) * sample_period, data[:, i])  
+        plt.xlim([2.5, 3.0])
+        plt.ylim([0, 5])
         plt.title(f'Channel {i+1}')
         plt.xlabel('Time (s)')
         plt.ylabel('Amplitude')
 
+    # Plot channels 4 and 5 together
+    plt.subplot(num_subplots, 1, num_subplots)
+    plt.plot(np.arange(data.shape[0]) * sample_period, data[:, 3], label='Channel 4')
+    plt.plot(np.arange(data.shape[0]) * sample_period, data[:, 4], label='Channel 5')
+    plt.xlim([2.5, 3.0])
+    plt.ylim([0, 5])
+    plt.title('Channels 4 and 5')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Amplitude')
+    plt.legend()
+
     plt.tight_layout()
-    plt.show()  # Call plt.show() after the loop has completed
+    plt.show()
 
 
 def raspi_import(path, channels=5):
@@ -51,7 +64,7 @@ def raspi_import(path, channels=5):
 # Import data from bin file
 
 sample_period, data = raspi_import(sys.argv[1] if len(sys.argv) > 1
-        else 'Lab4/number1.bin')
+        else 'Lab4/speed3-away-nr1.bin')
 
 print(data)
 data_multi = data * 0.81*10**(-3)
@@ -158,15 +171,14 @@ def plot_window_fft(data, sample_period, zero_padding_factor=2):
 
     # Plot
     plt.figure(figsize=(12, 8))
-    plt.title('2000 Hz Sine Wave FFT with and without Rectangular Window')
+
 
     plt.plot(fft_freq, fft_magnitude_dB_no_window, label='Without Rectangular Window', color='blue')
-    plt.plot(fft_freq, fft_magnitude_dB_windowed, label='With Rectangular Window', color='red')
 
     plt.xlabel('Frequency (Hz)')
     plt.ylabel('Amplitude (dB)')
     plt.legend()
-    plt.xlim(1900, 2100)  # Limit x-axis to the desired frequency range
+    plt.xlim(-500, 500)  # Limit x-axis to the desired frequency range
     plt.ylim(-150, 5)  # Limit y-axis for better visualization
 
     plt.tight_layout()
@@ -195,8 +207,8 @@ def plot_fft_loop(data, sample_period, zero_padding_factor=2):
         plt.title(f'FFT of Channel {i+1}')
         plt.xlabel('Frequency (Hz)')
         plt.ylabel('Amplitude (dB)')
-        plt.xlim(1900, 2100)  # Limit x-axis to the desired frequency range
-        plt.ylim(-100, 0)  # Limit y-axis for better visualization
+        plt.xlim(-2.5, 3.0)  # Limit x-axis to the desired frequency range
+        plt.ylim(-100, 100)  # Limit y-axis for better visualization
         plt.grid(True)
 
     plt.tight_layout()
@@ -241,6 +253,6 @@ def plot_window_fft_loop(data, sample_period, zero_padding_factor=2):
 
 
 # Plot FFTs with Hanning window and zero-padding for channels 4 and 5
-plot_window_fft_loop(data_multi, sample_period)
-#plot_window_fft(data_multi, sample_period)
+
+plot_window_fft(data_multi, sample_period)
 #plot_channels(data_multi)

@@ -3,8 +3,8 @@ import os
 
 print(os.getcwd())
 
-muabo = np.genfromtxt("./joshiam/Lab3/muabo.txt", delimiter=",")
-muabd = np.genfromtxt("./joshiam/Lab3/muabd.txt", delimiter=",")
+muabo = np.genfromtxt("Lab3/muabo.txt", delimiter=",")
+muabd = np.genfromtxt("Lab3/muabd.txt", delimiter=",")
 
 red_wavelength = 600 # Replace with wavelength in nanometres
 green_wavelength = 515 # Replace with wavelength in nanometres
@@ -53,7 +53,7 @@ def calculateC():
 #Calculate transmission for each color
 def transmissionCalc():
     constantC = calculateC()
-    depth = 300*10**(-6)                         #change with depth in m
+    depth = 0.013                         #change with depth in m
     transmission = np.exp(-constantC*depth)*100
     print("Transmission for depth of ", depth, " gives a transmission of ", transmission)
 
@@ -67,5 +67,5 @@ def contrastCalc():
     print(contrastVector)
 
 #Skriv inn funksjon under for å kjøre
-    contrastCalc()
+contrastCalc()
 
