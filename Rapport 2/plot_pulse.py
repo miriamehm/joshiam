@@ -5,7 +5,7 @@ import scipy.signal as signal
 
 
 data = np.loadtxt('/Users/joshjude/Documents/skole/semester 6/ttt4280 sensor/lab1-kopi/joshiam/Rapport 2/trans1.txt')
-#data = signal.detrend(data)
+data = signal.detrend(data)
 
 
 
@@ -25,7 +25,7 @@ def plotData():
     plt.figure(figsize=(10,6))
     
     plt.subplot(3, 1, 1)
-    plt.ylim(225, 275)
+    #plt.ylim(225, 275)
     plt.plot(time, red, color='red')
     plt.title('Rød kanal')
     plt.xlabel('Tid [s]')
@@ -49,24 +49,24 @@ def plotData():
 def plotFFT():
     plt.figure(figsize=(10, 6))
     plt.subplot(3, 1, 1)
-    plt.plot(frequencyBin, np.abs(redFFT), color='red')
+    plt.plot(frequencyBin, 20*np.log10(np.abs(redFFT)), color='red')
     plt.title('FFT av rød fargekanal')
     plt.xlabel('Frekvens [Hz]')
-    plt.xlim(-2,2)
+    plt.xlim(0.5,2)
     plt.ylabel('Amplitude')
 
     plt.subplot(3, 1, 2)
-    plt.plot(frequencyBin, np.abs(greenFFT), color='green')
+    plt.plot(frequencyBin, 20*np.log10(np.abs(greenFFT)), color='green')
     plt.title('FFT av grønn fargekanal')
     plt.xlabel('Frekvens [Hz]')
-    plt.xlim(-2,2)
+    plt.xlim(0.5,2)
     plt.ylabel('Amplitude')
 
     plt.subplot(3, 1, 3)
-    plt.plot(frequencyBin, np.abs(blueFFT), color='blue')
+    plt.plot(frequencyBin, 20*np.log10(np.abs(blueFFT)), color='blue')
     plt.title('FFT av blå fargekanal')
     plt.xlabel('Frekvens [Hz]')
-    plt.xlim(-2,2)
+    plt.xlim(0.5,2)
     plt.ylabel('Amplitude')
 
     plt.tight_layout()
@@ -95,7 +95,7 @@ def plotPeriodogram_with_filter():
     normalizedRed = Pxx_den_red_dB - np.max(Pxx_den_red_dB)
     plt.plot(f_red, normalizedRed, color='red', label='Rød kanal')
     plt.xlim(0.25, 5)
-    plt.ylim(-50, 10)
+    plt.ylim(-80, 10)
     plt.grid(True)
     plt.plot(peak_freq_red, np.max(normalizedRed), marker='o', markersize=5, color='red', label=f'Frekvenstopp: {peak_freq_red:.3f} Hz')
     plt.title('Periodogram - rød kanal')
@@ -108,7 +108,7 @@ def plotPeriodogram_with_filter():
     normalizedGreen = Pxx_den_green_dB - np.max(Pxx_den_green_dB)
     plt.plot(f_green, normalizedGreen, color='green', label='Grønn kanal')
     plt.xlim(0.25, 5)
-    plt.ylim(-50, 10)
+    plt.ylim(-80, 10)
     plt.grid(True)
     plt.plot(peak_freq_green, np.max(normalizedGreen), marker='o', markersize=5, color='green', label=f'Frekvenstopp: {peak_freq_green:.3f} Hz')
     plt.title('Periodogram - grønn kanal')
@@ -121,7 +121,7 @@ def plotPeriodogram_with_filter():
     normalizedBlue = Pxx_den_blue_dB - np.max(Pxx_den_blue_dB)
     plt.plot(f_blue, normalizedBlue, color='blue', label='Blå kanal')
     plt.xlim(0.25, 5)
-    plt.ylim(-50, 10)
+    plt.ylim(-80, 10)
     plt.grid(True)
     plt.plot(peak_freq_blue, np.max(normalizedBlue), marker='o', markersize=5, color='blue', label=f'Frekvenstopp: {peak_freq_blue:.3f} Hz')
     plt.title('Periodogram - blå kanal')
@@ -133,18 +133,18 @@ def plotPeriodogram_with_filter():
     plt.show()
 
 
-def butter_bandpass(lowcut, highcut, fs, order=5):
+def butter_bandpass(lowcut, highcut, fs, order=0):
     nyq = 0.5 * fs
     low = lowcut / nyq
     high = highcut / nyq
     b, a = signal.butter(order, [low, high], btype='band')
     return b, a
 
-def butter_bandpass_filter(data, lowcut, highcut, fs, order=5):
+def butter_bandpass_filter(data, lowcut, highcut, fs, order=0):
     b, a = butter_bandpass(lowcut, highcut, fs, order=order)
     y = signal.lfilter(b, a, data)
     return y
 
-plotData()
 
 
+plotPeriodogram_with_filter()
