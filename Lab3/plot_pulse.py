@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.signal as sci
 
-data = np.loadtxt('joshiam\Lab3\RGBmeasurements2.txt')
+data = np.loadtxt('/Users/joshjude/Documents/skole/semester 6/ttt4280 sensor/lab1-kopi/joshiam/Lab3/RGBmeasurements2.txt')
 data = sci.detrend(data)
 
 
@@ -48,21 +48,21 @@ def plotFFT() :
     plt.figure(figsize=(10, 6))
 
     plt.subplot(3, 1, 1)
-    plt.plot(frequencyBin, np.abs(redFFT), color='red')
+    plt.plot(frequencyBin, np.abs(redFFT)**2, color='red')
     plt.title('FFT av rød fargekanal')
     plt.xlabel('Frekvens [Hz]')
     plt.xlim(-2,2)
     plt.ylabel('Amplitude')
 
     plt.subplot(3, 1, 2)
-    plt.plot(frequencyBin, np.abs(greenFFT), color='green')
+    plt.plot(frequencyBin, np.abs(greenFFT)**2, color='green')
     plt.title('FFT av grønn fargekanal')
     plt.xlabel('Frekvens [Hz]')
     plt.xlim(-2,2)
     plt.ylabel('Amplitude')
 
     plt.subplot(3, 1, 3)
-    plt.plot(frequencyBin, np.abs(blueFFT), color='blue')
+    plt.plot(frequencyBin, np.abs(blueFFT)**2, color='blue')
     plt.title('FFT av blå fargekanal')
     plt.xlabel('Frekvens [Hz]')
     plt.xlim(-2,2)
