@@ -3,10 +3,8 @@ import matplotlib.pyplot as plt
 import scipy.signal as signal
 
 
-
-data = np.loadtxt('/Users/joshjude/Documents/skole/semester 6/ttt4280 sensor/lab1-kopi/joshiam/Rapport 2/trans1.txt')
+data = np.loadtxt('/Users/joshjude/Documents/skole/semester 6/ttt4280 sensor/lab1-kopi/joshiam/Lab3/RGBmeasurements4.txt')
 data = signal.detrend(data)
-
 
 
 red = data[:, 0][3:]
@@ -20,6 +18,18 @@ greenFFT = np.fft.fft(green)
 blueFFT = np.fft.fft(blue)
 
 frequencyBin = np.fft.fftfreq(len(time), time[1]-time[0])
+
+def butter_bandpass(lowcut, highcut, fs, order=0):
+    nyq = 0.5 * fs
+    low = lowcut / nyq
+    high = highcut / nyq
+    b, a = signal.butter(order, [low, high], btype='band')
+    return b, a
+
+def butter_bandpass_filter(data, lowcut, highcut, fs, order=0):
+    b, a = butter_bandpass(lowcut, highcut, fs, order=order)
+    y = signal.lfilter(b, a, data)
+    return y
 
 def plotData():
     plt.figure(figsize=(10,6))
@@ -159,7 +169,7 @@ def plotPeriodogram_with_filter1():
     plt.grid(True)
     #plt.plot(peak_freq_red, np.max(normalizedRed), marker='o', markersize=5, color='red', label=f'Frekvenstopp: {peak_freq_red:.3f} Hz')
     # Calculate and plot noise floor
-    noise_floor_red = np.percentile(normalizedRed, 75)  # Assuming 10% percentile represents the noise floor
+    noise_floor_red = np.percentile(normalizedRed, 75)   # Assuming 10% percentile represents the noise floor
     plt.axhline(y=noise_floor_red, color='black', linestyle='--', label=f'Støygulv = {noise_floor_red:.2f} dB')
     plt.title('Periodogram - rød kanal')
     plt.xlabel('Frekvens [Hz]')
@@ -200,21 +210,5 @@ def plotPeriodogram_with_filter1():
 
     plt.tight_layout()
     plt.show()
-
-
-
-def butter_bandpass(lowcut, highcut, fs, order=0):
-    nyq = 0.5 * fs
-    low = lowcut / nyq
-    high = highcut / nyq
-    b, a = signal.butter(order, [low, high], btype='band')
-    return b, a
-
-def butter_bandpass_filter(data, lowcut, highcut, fs, order=0):
-    b, a = butter_bandpass(lowcut, highcut, fs, order=order)
-    y = signal.lfilter(b, a, data)
-    return y
-
-
 
 plotPeriodogram_with_filter1()
