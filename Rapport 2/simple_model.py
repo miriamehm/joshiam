@@ -3,8 +3,8 @@ import os
 
 print(os.getcwd())
 
-muabo = np.genfromtxt("./joshiam/Lab3/muabo.txt", delimiter=",")
-muabd = np.genfromtxt("./joshiam/Lab3/muabd.txt", delimiter=",")
+muabo = np.genfromtxt("/Users/joshjude/Documents/skole/semester 6/ttt4280 sensor/lab1-kopi/joshiam/Rapport 2/muabo.txt", delimiter=",")
+muabd = np.genfromtxt("/Users/joshjude/Documents/skole/semester 6/ttt4280 sensor/lab1-kopi/joshiam/Rapport 2/muabd.txt", delimiter=",")
 
 red_wavelength = 600 # Replace with wavelength in nanometres
 green_wavelength = 515 # Replace with wavelength in nanometres
@@ -38,7 +38,8 @@ musr = 100 * (17.6*(wavelength/500)**-4 + 18.78*(wavelength/500)**-0.22)
 # TODO calculate penetration depth
 delta = np.sqrt(1/(3*(musr+mua)+mua))
 deltaBlood = np.sqrt(1/(3*(musr+mua_blood)+mua_blood))
-
+print("Delta: ", delta)
+print("Delta, blood: ", deltaBlood)
 #Print values for task 11.1 b)
 def printMuValues():
     print("Mua = ", mua)
@@ -53,7 +54,7 @@ def calculateC():
 #Calculate transmission for each color
 def transmissionCalc():
     constantC = calculateC()
-    depth = 300*10**(-6)                         #change with depth in m
+    depth = 300*10**(-6)                        #change with depth in m
     transmission = np.exp(-constantC*depth)*100
     print("Transmission for depth of ", depth, " gives a transmission of ", transmission)
 
@@ -67,5 +68,5 @@ def contrastCalc():
     print(contrastVector)
 
 #Skriv inn funksjon under for å kjøre
-    contrastCalc()
+contrastCalc()
 

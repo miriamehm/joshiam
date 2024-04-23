@@ -132,6 +132,76 @@ def plotPeriodogram_with_filter():
     plt.tight_layout()
     plt.show()
 
+def plotPeriodogram_with_filter1():
+    plt.figure(figsize=(10, 6))
+    lowcut = 0.5  
+    highcut = 3.3  
+    fs = 1 / (time[1] - time[0])  
+
+    red_filtered = butter_bandpass_filter(red, lowcut, highcut, fs)
+    green_filtered = butter_bandpass_filter(green, lowcut, highcut, fs)
+    blue_filtered = butter_bandpass_filter(blue, lowcut, highcut, fs)
+
+    f_red, Pxx_den_red = signal.periodogram(red_filtered, fs=fs)
+    f_green, Pxx_den_green = signal.periodogram(green_filtered, fs=fs)
+    f_blue, Pxx_den_blue = signal.periodogram(blue_filtered, fs=fs)
+
+    Pxx_den_red_dB = 10 * np.log10(Pxx_den_red)
+    Pxx_den_green_dB = 10 * np.log10(Pxx_den_green)
+    Pxx_den_blue_dB = 10 * np.log10(Pxx_den_blue)
+
+    plt.subplot(3, 1, 1)
+    peak_freq_red = f_red[np.argmax(Pxx_den_red)]
+    normalizedRed = Pxx_den_red_dB - np.max(Pxx_den_red_dB)
+    plt.plot(f_red, normalizedRed, color='red', label='Rød kanal')
+    plt.xlim(0.25, 5)
+    plt.ylim(-80, 10)
+    plt.grid(True)
+    #plt.plot(peak_freq_red, np.max(normalizedRed), marker='o', markersize=5, color='red', label=f'Frekvenstopp: {peak_freq_red:.3f} Hz')
+    # Calculate and plot noise floor
+    noise_floor_red = np.percentile(normalizedRed, 75)  # Assuming 10% percentile represents the noise floor
+    plt.axhline(y=noise_floor_red, color='black', linestyle='--', label=f'Støygulv = {noise_floor_red:.2f} dB')
+    plt.title('Periodogram - rød kanal')
+    plt.xlabel('Frekvens [Hz]')
+    plt.ylabel('Relativ effekt [dB]')
+    plt.legend()
+
+    plt.subplot(3, 1, 2)
+    peak_freq_green = f_green[np.argmax(Pxx_den_green)]
+    normalizedGreen = Pxx_den_green_dB - np.max(Pxx_den_green_dB)
+    plt.plot(f_green, normalizedGreen, color='green', label='Grønn kanal')
+    plt.xlim(0.25, 5)
+    plt.ylim(-80, 10)
+    plt.grid(True)
+    #plt.plot(peak_freq_green, np.max(normalizedGreen), marker='o', markersize=5, color='green', label=f'Frekvenstopp: {peak_freq_green:.3f} Hz')
+    # Calculate and plot noise floor
+    noise_floor_green = np.percentile(normalizedGreen, 75)  # Assuming 10% percentile represents the noise floor
+    plt.axhline(y=noise_floor_green, color='black', linestyle='--', label=f'Støygulv = {noise_floor_green:.2f} dB')
+    plt.title('Periodogram - grønn kanal')
+    plt.xlabel('Frekvens [Hz]')
+    plt.ylabel('Relativ effekt [dB]')
+    plt.legend()
+
+    plt.subplot(3, 1, 3)
+    peak_freq_blue = f_blue[np.argmax(Pxx_den_blue)]
+    normalizedBlue = Pxx_den_blue_dB - np.max(Pxx_den_blue_dB)
+    plt.plot(f_blue, normalizedBlue, color='blue', label='Blå kanal')
+    plt.xlim(0.25, 5)
+    plt.ylim(-80, 10)
+    plt.grid(True)
+    #plt.plot(peak_freq_blue, np.max(normalizedBlue), marker='o', markersize=5, color='blue', label=f'Frekvenstopp: {peak_freq_blue:.3f} Hz')
+    # Calculate and plot noise floor
+    noise_floor_blue = np.percentile(normalizedBlue, 75)  # Assuming 10% percentile represents the noise floor
+    plt.axhline(y=noise_floor_blue, color='black', linestyle='--', label=f'Støygulv = {noise_floor_blue:.2f} dB')
+    plt.title('Periodogram - blå kanal')
+    plt.xlabel('Frekvens [Hz]')
+    plt.ylabel('Relativ effekt [dB]')
+    plt.legend()
+
+    plt.tight_layout()
+    plt.show()
+
+
 
 def butter_bandpass(lowcut, highcut, fs, order=0):
     nyq = 0.5 * fs
@@ -147,4 +217,4 @@ def butter_bandpass_filter(data, lowcut, highcut, fs, order=0):
 
 
 
-plotPeriodogram_with_filter()
+plotPeriodogram_with_filter1()
